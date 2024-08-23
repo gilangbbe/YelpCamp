@@ -1,6 +1,4 @@
-if(process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
-}
+require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
@@ -49,7 +47,7 @@ const store = MongoStore.create({
     mongoUrl: process.env.MONGO_URL,
     touchAfter: 24 * 60 * 60,
     crypto: {
-        secret: 'thisshouldbeabettersecret!'
+        secret: process.env.SECRET
     }
 });
 
@@ -60,7 +58,7 @@ store.on("error", function(e) {
 const sessionConfig = {
     store,
     name: 'session',
-    secret: 'thisshouldbeabettersecret!',
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
